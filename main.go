@@ -334,6 +334,37 @@ func main() {
 		// Continue processing the event
 		return e.Next()
 	})
+
+	pocketBaseDomain := "https://orca-app-h75k3.ondigitalocean.app/"
+	// Fires when a record list is fetched
+	app.OnRecordsListRequest("Shop").BindFunc(func(e *core.RecordsListRequestEvent) error {
+		log.Println("Records List Request triggered")
+		// Iterate through each record in the list
+		for _, record := range e.Records {
+			// Get the record ID
+			recordID := record.GetString("id")
+
+			// Construct the URLs for the images (image1, image2, image3, image4)
+			for i := 1; i <= 4; i++ {
+				// Check if the image field exists and is not empty
+				imageField := fmt.Sprintf("image%d", i)
+				imageFile := record.GetString(imageField)
+				if imageFile != "" {
+					// Construct the file URL
+					imageURL := fmt.Sprintf("%s/api/files/%s/%s/%s", pocketBaseDomain, record.Collection().Name, recordID, imageFile)
+
+					// Replace the image field value with the constructed URL
+					record.Set(imageField, imageURL)
+					log.Println("Image field:", imageURL)
+				}
+			}
+		}
+
+		log.Println("Modified records:", e.Records)
+
+		// Continue processing the event and return the modified records
+		return e.Next()
+	})
 	// Start the app
 	if err := app.Start(); err != nil {
 		log.Fatal(err)
