@@ -35,14 +35,15 @@ For deployment on a server, bind the application to 0.0.0.0 to make it publicly 
 7. Access the Admin Dashboard
 The admin dashboard is accessible via the following URLs:
 
-Locally: http://localhost:8090_/
+Locally: http://localhost:8090/_/
 
-Hosted: http://<ip address>:8090/_/ or http://<domain>/_/
+Hosted: "http://<ip address>:8090/_/ or http://<domain>/_/"
 
 7. Edit the Domain in main.go
 In the root folder, open main.go and update the following line with your current domain:
+
 pocketBaseDomain := "https://orca-app-h75k3.ondigitalocean.app/" // Replace this with your domain
 
-8. Set Email Service
+9. Set Email Service
 To configure your email service, navigate to the Settings section of the PocketBase admin dashboard and configure the Mail Settings under the Email section.
 This will allow you to send emails for notifications such as order confirmations or payment receipts.
